@@ -227,7 +227,7 @@ export default function App() {
               <Store className="w-4 h-4" />
               {nurseryUser ? `Partner: ${nurseryUser.nurseryName.slice(0, 15)}...` : 'Nursery Owner Portal'}
             </button>
-            <a href="http://localhost:5174" target="_blank" rel="noreferrer" className="px-3 py-2 rounded-lg bg-slate-900 text-slate-200 hover:bg-slate-800 text-xs flex items-center gap-1">
+            <a href="https://hariyalhub-admin.vercel.app" target="_blank" rel="noreferrer" className="px-3 py-2 rounded-lg bg-slate-900 text-slate-200 hover:bg-slate-800 text-xs flex items-center gap-1">
               Admin Portal <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </nav>
@@ -422,7 +422,7 @@ export default function App() {
                   <form onSubmit={handleApplyNursery} className="space-y-4">
                     <h3 className="text-xl font-bold">Nursery Partner Application Form</h3>
                     <p className="text-sm text-stone-600">
-                      Fill in your Sukkur nursery details. Once the Super Admin approves your application in the Admin Portal (`localhost:5174`), your vendor account unlocks to publish plants and seeds.
+                      Fill in your Sukkur nursery details. Once the Super Admin approves your application in the Admin Portal (`hariyalhub-admin.vercel.app`), your vendor account unlocks to publish plants and seeds.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <input required placeholder="Nursery Name" value={applyForm.nurseryName} onChange={(e) => setApplyForm({ ...applyForm, nurseryName: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
@@ -482,7 +482,7 @@ export default function App() {
                     </h3>
                     <p className="text-sm text-amber-900 max-w-lg mx-auto">
                       {nurseryUser.status === 'pending'
-                        ? 'Please approve this application in the separate Super Admin Portal (http://localhost:5174), then refresh this page to unlock item listing.'
+                        ? 'Please approve this application in the separate Super Admin Portal (https://hariyalhub-admin.vercel.app), then refresh this page to unlock item listing.'
                         : `Rejection Reason: ${nurseryUser.rejectionReason}`}
                     </p>
                   </div>

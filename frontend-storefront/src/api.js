@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://hariyalhub-sukkur-eq4y.vercel.app/api';
 
 export async function apiRequest(path, options = {}) {
   const token = localStorage.getItem('hh_nursery_token');
