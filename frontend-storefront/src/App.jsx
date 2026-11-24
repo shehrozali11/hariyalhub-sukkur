@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sprout, Store, Sun, ShoppingBag, MessageCircle, CheckCircle2,
   Clock, Plus, Trash2, Phone, MapPin, LogIn, UserPlus, LogOut, ExternalLink
@@ -479,7 +479,7 @@ export default function App() {
                   <div>
                     <span className="text-xs text-stone-500">Nursery Vendor Account</span>
                     <h2 className="text-xl font-bold">{nurseryUser.nurseryName}</h2>
-                    <p className="text-sm text-stone-600">{nurseryUser.ownerName} â€¢ {nurseryUser.area}</p>
+                    <p className="text-sm text-stone-600">{nurseryUser.ownerName} • {nurseryUser.area}</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
@@ -537,7 +537,18 @@ export default function App() {
                         <input placeholder="Watering Guide" value={newItem.wateringGuide} onChange={(e) => setNewItem({ ...newItem, wateringGuide: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input placeholder="Plant Photo URL (Optional â€” auto-fills default if blank)" value={newItem.imageUrl} onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
+              <div className="border rounded-lg p-2 text-sm flex items-center justify-between gap-2 bg-stone-50">
+                <label className="cursor-pointer bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-md text-xs font-medium shrink-0">
+                  Browse Plant Photo
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                </label>
+                <span className="text-xs text-stone-500 truncate">
+                  {newItem.imageUrl ? 'Photo selected & ready' : 'No file chosen (Optional)'}
+                </span>
+                {newItem.imageUrl && (
+                  <img src={newItem.imageUrl} alt="Preview" className="w-8 h-8 rounded object-cover border shrink-0" />
+                )}
+              </div>
                         <input placeholder="Care Instructions for Customers" value={newItem.careInstructions} onChange={(e) => setNewItem({ ...newItem, careInstructions: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
                       </div>
                       <button type="submit" className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
@@ -554,7 +565,7 @@ export default function App() {
                               <img src={item.imageUrl || FALLBACK_IMG} alt={item.name} className="w-12 h-12 rounded-lg object-cover bg-stone-100" />
                               <div>
                                 <p className="font-semibold text-sm">{item.name} <span className="text-xs text-stone-500">({item.category})</span></p>
-                                <p className="text-xs text-emerald-700 font-semibold">Rs. {item.price} â€¢ {item.season}</p>
+                                <p className="text-xs text-emerald-700 font-semibold">Rs. {item.price} • {item.season}</p>
                               </div>
                             </div>
                             <button onClick={() => handleDeleteItem(item._id)} className="text-red-600 hover:bg-red-50 p-2 rounded-lg">
@@ -575,7 +586,7 @@ export default function App() {
                             <div key={o._id} className="border border-stone-100 p-3 rounded-xl text-sm flex flex-wrap justify-between gap-2">
                               <div>
                                 <p className="font-bold">{o.orderCode} â€” {o.product?.name} (x{o.quantity})</p>
-                                <p className="text-xs text-stone-600">{o.customerName} ({o.customerPhone}) â€¢ {o.deliveryAddress}</p>
+                                <p className="text-xs text-stone-600">{o.customerName} ({o.customerPhone}) • {o.deliveryAddress}</p>
                               </div>
                               <div className="text-right">
                                 <p className="font-bold text-emerald-800">Net Payout: Rs. {o.nurseryPayout}</p>
@@ -601,7 +612,7 @@ export default function App() {
               <img src={selectedProduct.imageUrl || FALLBACK_IMG} alt={selectedProduct.name} className="w-14 h-14 rounded-xl object-cover" />
               <div>
                 <h3 className="text-lg font-bold">Order {selectedProduct.name}</h3>
-                <p className="text-xs text-stone-600">Sold by {selectedProduct.nursery?.nurseryName} â€¢ COD in Sukkur</p>
+                <p className="text-xs text-stone-600">Sold by {selectedProduct.nursery?.nurseryName} • COD in Sukkur</p>
               </div>
             </div>
             {orderNotice ? (

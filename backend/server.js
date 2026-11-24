@@ -11,7 +11,7 @@ const guideRoutes = require('./routes/guideRoutes');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', service: 'HariyalHub Full-Stack API', location: 'Sukkur, Sindh' });
