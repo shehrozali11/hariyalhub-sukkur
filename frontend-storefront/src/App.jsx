@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   Sprout, Store, Sun, ShoppingBag, MessageCircle, CheckCircle2,
   Clock, Plus, Trash2, Phone, MapPin, LogIn, UserPlus, LogOut, ExternalLink
@@ -147,6 +147,28 @@ export default function App() {
     }
   };
 
+    const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_W = 800;
+        const scale = Math.min(1, MAX_W / img.width);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+        setNewItem((prev) => ({ ...prev, imageUrl: compressedDataUrl }));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleAddItem = async (e) => {
     e.preventDefault();
     try {
@@ -189,7 +211,7 @@ export default function App() {
     const q = chatInput.toLowerCase();
     let reply = 'For Sukkur homes, Snake Plant and Money Plant thrive indoors, while Sindhri Mango and Desi Roses love sunny lawns.';
     if (q.includes('summer') || q.includes('garmi') || q.includes('heat')) {
-      reply = 'In Sukkur summer (45°C+), water before 7:30 AM, use 50% green shade net, and choose Aloe Vera, Sadabahar, or Bhindi seeds.';
+      reply = 'In Sukkur summer (45Â°C+), water before 7:30 AM, use 50% green shade net, and choose Aloe Vera, Sadabahar, or Bhindi seeds.';
     } else if (q.includes('seed') || q.includes('vegetable') || q.includes('sabzi')) {
       reply = 'For kitchen gardening, sow Bhindi (Okra) & Tomato seeds in Spring, and Palak (Spinach) & Coriander in Winter.';
     } else if (q.includes('indoor') || q.includes('room')) {
@@ -227,9 +249,7 @@ export default function App() {
               <Store className="w-4 h-4" />
               {nurseryUser ? `Partner: ${nurseryUser.nurseryName.slice(0, 15)}...` : 'Nursery Owner Portal'}
             </button>
-            <a href="https://hariyalhub-admin.vercel.app" target="_blank" rel="noreferrer" className="px-3 py-2 rounded-lg bg-slate-900 text-slate-200 hover:bg-slate-800 text-xs flex items-center gap-1">
-              Admin Portal <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            
           </nav>
         </div>
       </header>
@@ -250,11 +270,11 @@ export default function App() {
                 </span>
                 <h2 className="text-2xl md:text-3xl font-bold">Find Local Nurseries, Discover Plants & Grow Better</h2>
                 <p className="text-emerald-100 mt-2 max-w-2xl text-sm">
-                  Explore indoor plants, fruit saplings, kitchen vegetable seeds, and organic fertilizers from approved Sukkur nurseries — Cash on Delivery.
+                  Explore indoor plants, fruit saplings, kitchen vegetable seeds, and organic fertilizers from approved Sukkur nurseries â€” Cash on Delivery.
                 </p>
               </div>
               <button onClick={() => setTab('partner')} className="bg-amber-400 hover:bg-amber-300 text-stone-950 font-semibold px-5 py-3 rounded-xl text-sm shrink-0">
-                Register Your Nursery →
+                Register Your Nursery â†’
               </button>
             </div>
 
@@ -365,7 +385,7 @@ export default function App() {
                       <Phone className="w-4 h-4 text-emerald-600" /> {n.phone}
                     </span>
                     <button onClick={() => { setNurseryFilter(n._id); setTab('marketplace'); }} className="text-sm font-semibold text-emerald-700 hover:underline">
-                      Browse Plants →
+                      Browse Plants â†’
                     </button>
                   </div>
                 </div>
@@ -422,7 +442,7 @@ export default function App() {
                   <form onSubmit={handleApplyNursery} className="space-y-4">
                     <h3 className="text-xl font-bold">Nursery Partner Application Form</h3>
                     <p className="text-sm text-stone-600">
-                      Fill in your Sukkur nursery details. Once the Super Admin approves your application in the Admin Portal (`hariyalhub-admin.vercel.app`), your vendor account unlocks to publish plants and seeds.
+                      Fill in your Sukkur nursery details. Once the Super Admin approves your application in the Admin Portal , your vendor account unlocks to publish plants and seeds.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <input required placeholder="Nursery Name" value={applyForm.nurseryName} onChange={(e) => setApplyForm({ ...applyForm, nurseryName: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
@@ -459,7 +479,7 @@ export default function App() {
                   <div>
                     <span className="text-xs text-stone-500">Nursery Vendor Account</span>
                     <h2 className="text-xl font-bold">{nurseryUser.nurseryName}</h2>
-                    <p className="text-sm text-stone-600">{nurseryUser.ownerName} • {nurseryUser.area}</p>
+                    <p className="text-sm text-stone-600">{nurseryUser.ownerName} â€¢ {nurseryUser.area}</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
@@ -482,7 +502,7 @@ export default function App() {
                     </h3>
                     <p className="text-sm text-amber-900 max-w-lg mx-auto">
                       {nurseryUser.status === 'pending'
-                        ? 'Please approve this application in the separate Super Admin Portal (https://hariyalhub-admin.vercel.app), then refresh this page to unlock item listing.'
+                        ? 'Please approve this application in the separate Super Admin Portal , then refresh this page to unlock item listing.'
                         : `Rejection Reason: ${nurseryUser.rejectionReason}`}
                     </p>
                   </div>
@@ -517,7 +537,7 @@ export default function App() {
                         <input placeholder="Watering Guide" value={newItem.wateringGuide} onChange={(e) => setNewItem({ ...newItem, wateringGuide: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input placeholder="Plant Photo URL (Optional — auto-fills default if blank)" value={newItem.imageUrl} onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
+                        <input placeholder="Plant Photo URL (Optional â€” auto-fills default if blank)" value={newItem.imageUrl} onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
                         <input placeholder="Care Instructions for Customers" value={newItem.careInstructions} onChange={(e) => setNewItem({ ...newItem, careInstructions: e.target.value })} className="border rounded-lg p-2.5 text-sm" />
                       </div>
                       <button type="submit" className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
@@ -534,7 +554,7 @@ export default function App() {
                               <img src={item.imageUrl || FALLBACK_IMG} alt={item.name} className="w-12 h-12 rounded-lg object-cover bg-stone-100" />
                               <div>
                                 <p className="font-semibold text-sm">{item.name} <span className="text-xs text-stone-500">({item.category})</span></p>
-                                <p className="text-xs text-emerald-700 font-semibold">Rs. {item.price} • {item.season}</p>
+                                <p className="text-xs text-emerald-700 font-semibold">Rs. {item.price} â€¢ {item.season}</p>
                               </div>
                             </div>
                             <button onClick={() => handleDeleteItem(item._id)} className="text-red-600 hover:bg-red-50 p-2 rounded-lg">
@@ -554,8 +574,8 @@ export default function App() {
                           {myOrders.map((o) => (
                             <div key={o._id} className="border border-stone-100 p-3 rounded-xl text-sm flex flex-wrap justify-between gap-2">
                               <div>
-                                <p className="font-bold">{o.orderCode} — {o.product?.name} (x{o.quantity})</p>
-                                <p className="text-xs text-stone-600">{o.customerName} ({o.customerPhone}) • {o.deliveryAddress}</p>
+                                <p className="font-bold">{o.orderCode} â€” {o.product?.name} (x{o.quantity})</p>
+                                <p className="text-xs text-stone-600">{o.customerName} ({o.customerPhone}) â€¢ {o.deliveryAddress}</p>
                               </div>
                               <div className="text-right">
                                 <p className="font-bold text-emerald-800">Net Payout: Rs. {o.nurseryPayout}</p>
@@ -581,7 +601,7 @@ export default function App() {
               <img src={selectedProduct.imageUrl || FALLBACK_IMG} alt={selectedProduct.name} className="w-14 h-14 rounded-xl object-cover" />
               <div>
                 <h3 className="text-lg font-bold">Order {selectedProduct.name}</h3>
-                <p className="text-xs text-stone-600">Sold by {selectedProduct.nursery?.nurseryName} • COD in Sukkur</p>
+                <p className="text-xs text-stone-600">Sold by {selectedProduct.nursery?.nurseryName} â€¢ COD in Sukkur</p>
               </div>
             </div>
             {orderNotice ? (
@@ -614,7 +634,7 @@ export default function App() {
           <div className="bg-white border border-stone-200 shadow-xl rounded-2xl w-80 overflow-hidden">
             <div className="bg-emerald-800 text-white p-3 flex justify-between items-center text-sm font-semibold">
               <span>HariyalHub AI Mali</span>
-              <button onClick={() => setChatOpen(false)}>✕</button>
+              <button onClick={() => setChatOpen(false)}>âœ•</button>
             </div>
             <div className="p-3 h-60 overflow-y-auto space-y-2 text-xs bg-stone-50">
               {messages.map((m, i) => (
@@ -637,3 +657,4 @@ export default function App() {
     </div>
   );
 }
+
